@@ -2,7 +2,7 @@
 # define CPPAD_LOCAL_AD_TAPE_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -134,7 +134,12 @@ public:
 	void Independent(VectorADBase &u);
 	template <typename VectorADBase>
 	void Independent(VectorADBase &u, size_t abort_op_index);
-
+	template <typename VectorADBase>
+	void Independent(
+		VectorADBase&       u                 ,
+		size_t              abort_op_index    ,
+		const VectorADBase& dynamic_parameter
+	);
 };
 // ---------------------------------------------------------------------------
 // Private functions

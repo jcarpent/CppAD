@@ -1,9 +1,8 @@
-// $Id$
 # ifndef CPPAD_LOCAL_INDEPENDENT_HPP
 # define CPPAD_LOCAL_INDEPENDENT_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-16 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -30,10 +29,16 @@ Vector of the independent variablerd.
 \param abort_op_index
 operator index at which execution will be aborted (during  the recording
 of operations). The value zero corresponds to not aborting (will not match).
+
+\param dynamic_parameter
+vector of parameters that can be changed after the function is recorded.
 */
 template <typename Base>
 template <typename VectorAD>
-void ADTape<Base>::Independent(VectorAD &x, size_t abort_op_index)
+void ADTape<Base>::Independent(
+	VectorAD&       x                 ,
+	size_t          abort_op_index    ,
+	const VectorAD& dynamic_parameter )
 {
 	// check VectorAD is Simple Vector class with AD<Base> elements
 	CheckSimpleVector< AD<Base>, VectorAD>();

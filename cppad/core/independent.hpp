@@ -2,7 +2,7 @@
 # define CPPAD_CORE_INDEPENDENT_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -32,6 +32,8 @@ $head Syntax$$
 $codei%Independent(%x%)
 %$$
 $codei%Independent(%x%, %abort_op_index%)
+%$$
+$codei%Independent(%x%, %abort_op_index%, %dynamic_parameter%)
 %$$
 
 $head Purpose$$
@@ -70,7 +72,7 @@ as $codei%AD<%Base%>%$$ variables.
 $head x$$
 The vector $icode x$$ has prototype
 $codei%
-	%VectorAD% &%x%
+	%VectorAD%& %x%
 %$$
 (see $icode VectorAD$$ below).
 The size of the vector $icode x$$, must be greater than zero,
@@ -78,14 +80,31 @@ and is the number of independent variables for this
 AD operation sequence.
 
 $head abort_op_index$$
-It specifies the operator index at which the execution is be aborted
+If this argument is present, it has prototype
+$codei%
+	size_t %abort_op_index%
+%$$.
+It specifies the operator index at which CppAD aborts execution
 by calling the CppAD $cref/error handler/ErrorHandler/$$.
 When this error handler leads to an assert, the user
 can inspect the call stack to see the source code corresponding to
 this operator index; see
 $cref/purpose/compare_change/op_index/Purpose/$$.
-No abort will occur if $icode abort_op_index$$ is zero,
-of if $cref/NDEBUG/Faq/Speed/NDEBUG/$$ is defined.
+If $icode abort_op_index$$ is zero,
+of if $cref/NDEBUG/Faq/Speed/NDEBUG/$$ is defined,
+this abort will not occur.
+
+$head dynamic_parameter (Under Construction)$$
+If this argument is present, it has prototype
+$codei%
+	const %VectorAD%& %dynamic_parameter%
+%$$
+(see $icode Vector$$ below).
+It specifies the value for a vector of $cref/parameters/glossary/Parameter/$$,
+in the $cref ADFun$$ object $icode f$$ above, that can be changed after
+the recording is stopped.
+There are no dynamic parameters when
+the size of $icode dynamic_parameter$$ is zero.
 
 $head VectorAD$$
 The type $icode VectorAD$$ must be a $cref SimpleVector$$ class with
@@ -141,9 +160,15 @@ Vector of the independent variablerd.
 \param abort_op_index
 operator index at which execution will be aborted (during  the recording
 of operations). The value zero corresponds to not aborting (will not match).
+
+\param dynamic_parameter
+vector of parameters that can be changed after the function is recorded.
 */
 template <typename VectorAD>
-inline void Independent(VectorAD &x, size_t abort_op_index)
+inline void Independent(
+	VectorAD&       x                 ,
+	size_t          abort_op_index    ,
+	const VectorAD& dynamic_parameter )
 {	typedef typename VectorAD::value_type ADBase;
 	typedef typename ADBase::value_type   Base;
 	CPPAD_ASSERT_KNOWN(
@@ -153,10 +178,10 @@ inline void Independent(VectorAD &x, size_t abort_op_index)
 		"AD<Base>::abort_recording() would abort this previous recording."
 	);
 	local::ADTape<Base>* tape = ADBase::tape_manage(tape_manage_new);
-	tape->Independent(x, abort_op_index);
+	tape->Independent(x, abort_op_index, dynamic_parameter);
 }
 /*!
-Declaration of independent variables without abort option.
+Declaration of independent variables with just x
 
 \tparam VectorAD
 This is simple vector type with elements of type AD<Base>.
@@ -166,8 +191,31 @@ Vector of the independent variablerd.
 */
 template <typename VectorAD>
 inline void Independent(VectorAD &x)
-{	size_t abort_op_index = 0;
-	Independent(x, abort_op_index);
+{	// value is zero
+	size_t abort_op_index = 0;
+	// size is zero
+	VectorAD dynamic_parameter(0);
+	Independent(x, abort_op_index, dynamic_parameter);
+}
+
+/*!
+Declaration of independent variables with just x, abort_op_index
+
+\tparam VectorAD
+This is simple vector type with elements of type AD<Base>.
+
+\param x
+Vector of the independent variablerd.
+
+\param abort_op_index
+operator index at which execution will be aborted (during  the recording
+of operations). The value zero corresponds to not aborting (will not match).
+*/
+template <typename VectorAD>
+inline void Independent(VectorAD &x, size_t abort_op_index)
+{	// size is zero
+	VectorAD dynamic_parameter(0);
+	Independent(x, abort_op_index, dynamic_parameter);
 }
 
 } // END_CPPAD_NAMESPACE
