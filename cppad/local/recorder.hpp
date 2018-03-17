@@ -37,7 +37,7 @@ private:
 	size_t abort_op_index_;
 
 	/// number of dynamic parameters
-	size_t size_dynamic_parameter_;
+	size_t dynamic_paramerer_size_;
 
 	/// offset for this thread in the static hash table
 	const size_t thread_offset_;
@@ -68,7 +68,7 @@ public:
 	/// Default constructor
 	recorder(void) :
 	abort_op_index_(0),
-	size_dynamic_parameter_(0),
+	dynamic_paramerer_size_(0),
 	thread_offset_(
 		thread_alloc::thread_num() * CPPAD_HASH_TABLE_SIZE
 	),
@@ -81,12 +81,12 @@ public:
 	{	abort_op_index_ = abort_op_index; }
 
 	/// Set the size of the dynamic parameter vector
-	void set_size_dynamic_parameter(size_t size_dynamic_parameter)
-	{	size_dynamic_parameter_ = size_dynamic_parameter; }
+	void set_dynamic_paramerer_size(size_t size_dynamic_parameter)
+	{	dynamic_paramerer_size_ = size_dynamic_parameter; }
 
 	/// Get size of the dynamic parameter vector
-	size_t get_size_dynamic_parameter(void)
-	{	return size_dynamic_parameter_; }
+	size_t get_dynamic_paramerer_size(void)
+	{	return dynamic_paramerer_size_; }
 
 	/// Destructor
 	~recorder(void)
@@ -341,7 +341,7 @@ addr_t recorder<Base>::PutPar(const Base &par)
 
 	// If we have a match, return the parameter index
 	i          = hash_table[code + thread_offset_];
-	bool match = (size_dynamic_parameter_ <= i) & (i < par_vec_.size());
+	bool match = (dynamic_paramerer_size_ <= i) & (i < par_vec_.size());
 	if( match )
 		match = IdenticalEqualPar(par_vec_[i], par);
 	if( match )
