@@ -43,8 +43,8 @@ private :
 	// taddr_ in tape for this variable
 	addr_t taddr_;
 
-	// is this a dynamic parameter
-	bool   dynamic_parameter_;
+	// dynamic parameter index plus, if this is a parameter
+	dynamic_id_t dynamic_id_;
 	// -----------------------------------------------------------------------
 
 	// enable use of AD<Base> in parallel mode
@@ -173,7 +173,7 @@ public:
 
 	// destructor
 	~AD(void)
-	{	CPPAD_ASSERT_UNKNOWN( dynamic_parameter_ == false ); }
+	{	CPPAD_ASSERT_UNKNOWN( dynamic_id_ == 0 ); }
 
 	// use default implicit copy constructor
 	// inline AD(const AD &x);
@@ -271,19 +271,18 @@ private:
 	//
 	void make_parameter(void)
 	{	CPPAD_ASSERT_UNKNOWN( Variable(*this) );  // currently a var
-		tape_id_           = 0;
-		dynamic_parameter_ = false;
+		tape_id_     = 0;
+		dynamic_id_  = 0;
 	}
 	//
 	// Make this parameter a new variable
-	//
 	void make_variable(tape_id_t id,  addr_t taddr)
 	{	CPPAD_ASSERT_UNKNOWN( Parameter(*this) ); // currently a par
 		CPPAD_ASSERT_UNKNOWN( taddr > 0 );        // sure valid taddr
 
-		taddr_             = taddr;
-		tape_id_           = id;
-		dynamic_parameter_ = false;
+		taddr_       = taddr;
+		tape_id_     = id;
+		dynamic_id_  = 0;
 	}
 	// ---------------------------------------------------------------
 	// tape linking functions

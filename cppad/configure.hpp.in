@@ -2,7 +2,7 @@
 # define CPPAD_CONFIGURE_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -141,12 +141,12 @@ Otherwise, this smybol should be zero.
 Is the type used to store address on the tape. If not size_t, then
 <code>sizeof(CPPAD_TAPE_ADDR_TYPE) <= sizeof( size_t )</code>
 to conserve memory.
-This type must support \c std::numeric_limits,
-the \c <= operator,
-and conversion to \c size_t.
+This type must support std::numeric_limits,
+the <= operator,
+and conversion to size_t.
 Make sure that the type chosen returns true for is_pod<CPPAD_TAPE_ADDR_TYPE>
 in pod_vector.hpp.
-This type is later defined as \c addr_t in the CppAD namespace.
+This type is later defined as addr_t in the CppAD namespace.
 */
 # define CPPAD_TAPE_ADDR_TYPE @cppad_tape_addr_type@
 
@@ -155,14 +155,27 @@ This type is later defined as \c addr_t in the CppAD namespace.
 Is the type used to store tape identifiers. If not size_t, then
 <code>sizeof(CPPAD_TAPE_ID_TYPE) <= sizeof( size_t )</code>
 to conserve memory.
-This type must support \c std::numeric_limits,
-the \c <= operator,
-and conversion to \c size_t.
+This type must support std::numeric_limits,
+the <= operator,
+and conversion to size_t.
 Make sure that the type chosen returns true for is_pod<CPPAD_TAPE_ID_TYPE>
 in pod_vector.hpp.
-This type is later defined as \c tape_id_t in the CppAD namespace.
+This type is later defined as tape_id_t in the CppAD namespace.
 */
 # define CPPAD_TAPE_ID_TYPE @cppad_tape_id_type@
+
+/*!
+\def CPPAD_DYNAMIC_ID_TYPE
+Is the type used to store tape identifiers. If not size_t, then
+<code>sizeof(CPPAD_DYNAMIC_ID_TYPE) <= sizeof( size_t )</code>
+to conserve memory.
+This type must support std::numeric_limits,
+and conversion to size_t.
+Make sure that the type chosen do its maximum value is greater than
+the size of any dynamic parameter vector.
+This type is later defined as dynamic_id_t in the CppAD namespace.
+*/
+# define CPPAD_DYNAMIC_ID_TYPE @cppad_dynamic_id_type@
 
 /*!
 \def CPPAD_MAX_NUM_THREADS

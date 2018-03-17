@@ -20,6 +20,7 @@
 # 8. Change : B^n to \B{R}^n and other simuilar uses of B as a space.
 # 9. Change Vector<T> -> <T>Vector for T = Base, Size, Bool (T != Set)
 # 10. Change http://www.coin-or.org/CppAD to new download server.
+# 11. Remove all the \c doxygen commands.
 # -----------------------------------------------------------------------------
 spell_list='
 '

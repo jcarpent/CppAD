@@ -1,6 +1,6 @@
 #! /bin/bash -e
 # -----------------------------------------------------------------------------
-# CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+# CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 #
 # CppAD is distributed under multiple licenses. This distribution is under
 # the terms of the
@@ -236,6 +236,7 @@ cmake_args="$cmake_args -D cppad_testvector=$testvector"
 cmake_args="$cmake_args -D cppad_debug_which=$debug_which"
 cmake_args="$cmake_args -D cppad_tape_id_type='int32_t'"
 cmake_args="$cmake_args -D cppad_tape_addr_type=int32_t"
+cmake_args="$cmake_args -D cppad_dynamic_id_type=int32_t"
 cmake_args="$cmake_args -D cppad_max_num_threads=48"
 #
 echo_eval cmake $cmake_args ..
