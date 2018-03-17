@@ -50,9 +50,11 @@ void ADTape<Base>::Independent(
 		"Indepdendent: the argument vector x has zero size"
 	);
 	CPPAD_ASSERT_UNKNOWN( Rec_.num_var_rec() == 0 );
+	CPPAD_ASSERT_UNKNOWN( Rec_.num_par_rec() == 0 );
 
-	// set the abort index before doing anything else
+	// first set the abort index and size of dynamic parameter vector
 	Rec_.set_abort_op_index(abort_op_index);
+	Rec_.set_size_dynamic_parameter( dynamic_parameter.size() );
 
 	// mark the beginning of the tape and skip the first variable index
 	// (zero) because parameters use taddr zero

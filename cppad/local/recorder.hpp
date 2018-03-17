@@ -1,7 +1,7 @@
 # ifndef CPPAD_LOCAL_RECORDER_HPP
 # define CPPAD_LOCAL_RECORDER_HPP
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -36,6 +36,9 @@ private:
 	/// (do not abort when zero)
 	size_t abort_op_index_;
 
+	/// number of dynamic parameters
+	size_t size_dynamic_parameter_;
+
 	/// offset for this thread in the static hash table
 	const size_t thread_offset_;
 
@@ -55,7 +58,7 @@ private:
 	pod_vector<addr_t> arg_vec_;
 
 	/// The parameters in the recording.
-	/// Note that Base may not be plain old data, so use false in consructor.
+	/// Note that Base may not be plain old data.
 	pod_vector<Base> par_vec_;
 
 	/// Character strings ('\\0' terminated) in the recording.
@@ -64,12 +67,14 @@ private:
 public:
 	/// Default constructor
 	recorder(void) :
-	thread_offset_( thread_alloc::thread_num() * CPPAD_HASH_TABLE_SIZE ) ,
-	num_var_rec_(0)      ,
+	abort_op_index_(0),
+	size_dynamic_parameter_(0),
+	thread_offset_(
+		thread_alloc::thread_num() * CPPAD_HASH_TABLE_SIZE
+	),
+	num_var_rec_(0),
 	num_load_op_rec_(0)
-	{
-		abort_op_index_ = 0;
-	}
+	{ }
 
 	/// Set the abort index
 	void set_abort_op_index(size_t abort_op_index)
@@ -78,6 +83,14 @@ public:
 	/// Get the abort index
 	size_t get_abort_op_index(void)
 	{	return abort_op_index_; }
+
+	/// Set the size of the dynamic parameter vector
+	void set_size_dynamic_parameter(size_t size_dynamic_parameter)
+	{	size_dynamic_parameter_ = size_dynamic_parameter; }
+
+	/// Get size of the dynamic parameter vector
+	size_t get_size_dynamic_parameter(void)
+	{	return size_dynamic_parameter_; }
 
 	/// Destructor
 	~recorder(void)
@@ -143,6 +156,10 @@ public:
 	/// Number of operators currently stored in the recording.
 	size_t num_op_rec(void) const
 	{	return  op_vec_.size(); }
+
+	/// number of parameters (counting dynamic parametrers)
+	size_t num_par_rec(void) const
+	{	return par_vec_.size(); }
 
 	/// Approximate amount of memory used by the recording
 	size_t Memory(void) const
