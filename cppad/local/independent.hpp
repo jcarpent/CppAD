@@ -54,7 +54,8 @@ void ADTape<Base>::Independent(
 
 	// first set the abort index and size of dynamic parameter vector
 	Rec_.set_abort_op_index(abort_op_index);
-	Rec_.set_size_dynamic_parameter( dynamic_parameter.size() );
+	size_t n_dynamic_parameter = size_t( dynamic_parameter.size() );
+	Rec_.set_size_dynamic_parameter( n_dynamic_parameter );
 
 	// mark the beginning of the tape and skip the first variable index
 	// (zero) because parameters use taddr zero
@@ -64,14 +65,17 @@ void ADTape<Base>::Independent(
 
 	// place each of the independent variables in the tape
 	CPPAD_ASSERT_NARG_NRES(InvOp, 0, 1);
-	size_t j;
-	for(j = 0; j < n; j++)
+	for(size_t j = 0; j < n; j++)
 	{	// tape address for this independent variable
 		x[j].taddr_ = Rec_.PutOp(InvOp);
 		x[j].tape_id_    = id_;
 		CPPAD_ASSERT_UNKNOWN( size_t(x[j].taddr_) == j+1 );
 		CPPAD_ASSERT_UNKNOWN( Variable(x[j] ) );
 	}
+
+	// place dynamic parameters in the tape
+	for(size_t i = 0; i < n_dynamic_parameter; i++)
+		Rec_.PutPar( Value( dynamic_parameter[i] ) );
 
 	// done specifying all of the independent variables
 	size_independent_ = n;
