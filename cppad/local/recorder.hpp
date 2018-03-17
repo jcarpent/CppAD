@@ -80,10 +80,6 @@ public:
 	void set_abort_op_index(size_t abort_op_index)
 	{	abort_op_index_ = abort_op_index; }
 
-	/// Get the abort index
-	size_t get_abort_op_index(void)
-	{	return abort_op_index_; }
-
 	/// Set the size of the dynamic parameter vector
 	void set_size_dynamic_parameter(size_t size_dynamic_parameter)
 	{	size_dynamic_parameter_ = size_dynamic_parameter; }

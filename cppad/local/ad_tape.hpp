@@ -101,9 +101,9 @@ private:
 	tape_id_t                    id_;
 	/// Number of independent variables in this tapes reconding.
 	/// Set by Independent and effectively const
-	size_t         size_independent_;
+	size_t                       size_independent_;
 	/// This is where the information is recorded.
-	local::recorder<Base>              Rec_;
+	local::recorder<Base>        Rec_;
 	// ----------------------------------------------------------------------
 	// private functions
 	//
