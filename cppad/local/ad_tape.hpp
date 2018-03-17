@@ -138,7 +138,7 @@ public:
 	void Independent(
 		VectorADBase&       u                 ,
 		size_t              abort_op_index    ,
-		const VectorADBase& dynamic_parameter
+		VectorADBase&       dynamic_parameter
 	);
 };
 // ---------------------------------------------------------------------------

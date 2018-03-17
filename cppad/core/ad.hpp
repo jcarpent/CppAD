@@ -56,7 +56,7 @@ private :
 	friend void Independent(
 		VectorAD&       x                 ,
 		size_t          abort_op_index    ,
-		const VectorAD& dynamic_parameter
+		VectorAD&       dynamic_parameter
 	);
 
 	// one argument functions

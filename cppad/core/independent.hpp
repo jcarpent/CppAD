@@ -168,7 +168,7 @@ template <typename VectorAD>
 inline void Independent(
 	VectorAD&       x                 ,
 	size_t          abort_op_index    ,
-	const VectorAD& dynamic_parameter )
+	VectorAD&       dynamic_parameter )
 {	typedef typename VectorAD::value_type ADBase;
 	typedef typename ADBase::value_type   Base;
 	CPPAD_ASSERT_KNOWN(

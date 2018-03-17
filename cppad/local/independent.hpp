@@ -38,7 +38,7 @@ template <typename VectorAD>
 void ADTape<Base>::Independent(
 	VectorAD&       x                 ,
 	size_t          abort_op_index    ,
-	const VectorAD& dynamic_parameter )
+	VectorAD&       dynamic_parameter )
 {
 	// check VectorAD is Simple Vector class with AD<Base> elements
 	CheckSimpleVector< AD<Base>, VectorAD>();
