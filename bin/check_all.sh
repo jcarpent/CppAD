@@ -84,9 +84,9 @@ list=`ls bin/check_* | sed \
 	-e '/check_all.sh/d' \
 	-e '/check_jenkins.sh/d' \
 	-e '/check_svn_dist.sh/d'`
-for check in $list check_copyright.sh
+for script in check_copyright.sh $list
 do
-	echo_log_eval $check
+	echo_log_eval $script
 done
 # ---------------------------------------------------------------------------
 # Create package to run test in

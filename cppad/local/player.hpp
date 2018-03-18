@@ -2,7 +2,7 @@
 # define CPPAD_LOCAL_PLAYER_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -33,6 +33,9 @@ class player {
 private:
 	// ----------------------------------------------------------------------
 	// information that defines the recording
+
+	/// Number of dynamic parameters in the recording.
+	size_t num_dynamic_par_;
 
 	/// Number of variables in the recording.
 	size_t num_var_rec_;
@@ -118,6 +121,7 @@ public:
 		size_t addr_t_max = size_t( std::numeric_limits<addr_t>::max() );
 # endif
 		// just set size_t values
+		num_dynamic_par_    = rec.num_dynamic_par_;
 		num_var_rec_        = rec.num_var_rec_;
 		num_load_op_rec_    = rec.num_load_op_rec_;
 
