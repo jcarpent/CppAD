@@ -31,8 +31,7 @@ move_list='
 move_sed='s|reverse_subgraph|subgraph_reverse|'
 #
 cat << EOF > junk.sed
-s|const VectorADBase\\(& *\\)dynamic_parameter|VectorADBase\\1      dynamic_parameter|
-s|const VectorAD\\(& *\\)dynamic_parameter|VectorAD\\1      dynamic_parameter|
+s|dynamic_paramerer_size_|num_dynamic_par_|g
 EOF
 # -----------------------------------------------------------------------------
 if [ $0 != "bin/batch_edit.sh" ]
