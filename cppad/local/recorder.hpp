@@ -81,11 +81,11 @@ public:
 	{	abort_op_index_ = abort_op_index; }
 
 	/// Set the size of the dynamic parameter vector
-	void set_dynamic_paramerer_size(size_t size_dynamic_parameter)
-	{	num_dynamic_par_ = size_dynamic_parameter; }
+	void set_num_dynamic_par(size_t num_dynamic_par)
+	{	num_dynamic_par_ = num_dynamic_par; }
 
 	/// Get size of the dynamic parameter vector
-	size_t get_dynamic_paramerer_size(void)
+	size_t get_num_dynamic_par(void)
 	{	return num_dynamic_par_; }
 
 	/// Destructor
