@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -44,7 +44,8 @@ bool seq_property(void)
 	size_t nvar = 1;
 
 	// Use npar to track the number of parameters in the operation sequence.
-	size_t npar = 0;
+	// Start with one for the phantom dynamic parameter at address zero.
+	size_t npar = 1;
 
 	// Start with one for operator corresponding to phantom variable
 	size_t nop  = 1;

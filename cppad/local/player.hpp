@@ -614,6 +614,10 @@ public:
 		return text_vec_.data() + i;
 	}
 
+	/// Fetch number of dynamic parameters in the recording
+	size_t num_dynamic_par(void) const
+	{	return num_dynamic_par_; }
+
 	/// Fetch number of variables in the recording.
 	size_t num_var_rec(void) const
 	{	return num_var_rec_; }

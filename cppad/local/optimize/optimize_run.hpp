@@ -3,7 +3,7 @@
 # define CPPAD_LOCAL_OPTIMIZE_OPTIMIZE_RUN_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -242,6 +242,12 @@ void optimize_run(
 	// tempory used to hold a size_pair
 	struct_size_pair size_pair;
 
+	// The dynamic parameters are the same in the new and old recording
+	rec->set_num_dynamic_par( play->num_dynamic_par() );
+	rec->PutPar( Base(0.0) ); // phantom parameter at beginning (not used)
+	for(size_t i = 0; i < play->num_dynamic_par(); ++i)
+		rec->PutPar( play->GetPar(i + 1) );
+	//
 	user_state = start_user;
 	i_var      = 0;
 	for(i_op = 0; i_op < num_op; ++i_op)

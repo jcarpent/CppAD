@@ -317,11 +317,14 @@ Find or add a parameter to the current vector of parameters.
 
 \param par
 is the parameter to be found or placed in the vector of parameters.
+It a previous parameter is identically equal to this one, it may be used.
+Dynamic parameters are not considered identically eqaul; i.e.,
+parameters with index less than or equal num_dynamic_par_.
 
 \return
 is the index in the parameter vector corresponding to this parameter value.
-This value is not necessarily placed at the end of the vector
-(because values that are identically equal may be reused).
+This value is at the end of the vector unless an identically equal
+parameter is used.
 */
 template <class Base>
 addr_t recorder<Base>::PutPar(const Base &par)
@@ -341,6 +344,9 @@ addr_t recorder<Base>::PutPar(const Base &par)
 
 	// If we have a match, return the parameter index
 	i          = hash_table[code + thread_offset_];
+
+	// Check if in the parameter data, not a dynamic parameter, and
+	// identically equal.
 	bool match = (num_dynamic_par_ <= i) & (i < par_vec_.size());
 	if( match )
 		match = IdenticalEqualPar(par_vec_[i], par);

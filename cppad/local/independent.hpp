@@ -63,6 +63,18 @@ void ADTape<Base>::Independent(
 	Rec_.PutOp(BeginOp);
 	Rec_.PutArg(0);
 
+	// skip the first Parameter index, and follow it by the dynamic parameters
+	Rec_.PutPar( Base(0) );
+	for(size_t i = 0; i < num_dynamic_par; ++i)
+	{	dynamic_parameter[i].dynamic_id_ = Rec_.PutPar(
+			dynamic_parameter[i].value_
+		);
+		// i-th dynamic parameter must have index i + 1
+		CPPAD_ASSERT_UNKNOWN(
+			size_t( dynamic_parameter[i].dynamic_id_ ) == i + 1
+		);
+	}
+
 	// place each of the independent variables in the tape
 	CPPAD_ASSERT_NARG_NRES(InvOp, 0, 1);
 	for(size_t j = 0; j < n; j++)
