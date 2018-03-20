@@ -1,7 +1,7 @@
 # ifndef CPPAD_CORE_ABS_NORMAL_FUN_HPP
 # define CPPAD_CORE_ABS_NORMAL_FUN_HPP
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -352,6 +352,18 @@ void ADFun<Base>::abs_normal_fun(ADFun<Base>& g, ADFun<Base>& a) const
 	for(i_var = 0; i_var < num_var; i_var++)
 		f2g_var[i_var] = addr_t( num_var ); // invalid (should not be used)
 	//
+	// Parameters in recording of f
+	const Base* f_parameter = play_.GetPar();
+	//
+	// phantom parameter at beginning of parameter vector
+	rec.PutPar( Base(0) );
+	//
+	// dynamic parameters
+	size_t num_dynamic_par = play_.num_dynamic_par();
+	rec.set_num_dynamic_par( num_dynamic_par );
+	for(size_t i = 0; i < play_.num_dynamic_par(); ++i)
+		rec.PutPar(f_parameter[i + 1] );
+	//
 	// record the independent variables in f
 	i_op = 0;
 	play_.get_op_info(i_op, op, arg, i_var);
@@ -392,9 +404,6 @@ void ADFun<Base>::abs_normal_fun(ADFun<Base>& g, ADFun<Base>& a) const
 	//
 	// used to hold new argument vector
 	addr_t new_arg[6];
-	//
-	// Parameters in recording of f
-	const Base* f_parameter = play_.GetPar();
 	//
 	// now loop through the rest of the
 	more_operators = true;

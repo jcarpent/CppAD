@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -47,7 +47,8 @@ bool test(void)
 	// create f: ax -> ay
 	ADFun<Float> f(ax, ay);
 
-	ok = f.size_par() == n_parameter;
+	// add one for phatom parameter at beginning
+	ok = f.size_par() == n_parameter + 1;
 
 	return ok;
 }

@@ -87,6 +87,7 @@ public:
 	// =================================================================
 	/// constructor
 	player(void) :
+	num_dynamic_par_(0)  ,
 	num_var_rec_(0)      ,
 	num_load_op_rec_(0)
 	{ }
@@ -416,10 +417,11 @@ public:
 	Copying an operation sequence from another player to this one
 
 	\param play
-	the object that contains the operatoion sequence to copy.
+	the object that contains the operation sequence to copy.
 	*/
 	void operator=(const player& play)
 	{
+		num_dynamic_par_    = play.num_dynamic_par_;
 		num_var_rec_        = play.num_var_rec_;
 		num_load_op_rec_    = play.num_load_op_rec_;
 		op_vec_             = play.op_vec_;

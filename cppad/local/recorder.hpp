@@ -345,9 +345,11 @@ addr_t recorder<Base>::PutPar(const Base &par)
 	// If we have a match, return the parameter index
 	i          = hash_table[code + thread_offset_];
 
-	// Check if in the parameter data, not a dynamic parameter, and
-	// identically equal.
-	bool match = (num_dynamic_par_ <= i) & (i < par_vec_.size());
+	// check i is within par_vec_ vector
+	bool match = i < par_vec_.size();
+	// Check par_vec_[i] is not phantom parameter or dynamic parameter
+	match     &= num_dynamic_par_ < i;
+	// Check par_vec_[i] identically equal to par
 	if( match )
 		match = IdenticalEqualPar(par_vec_[i], par);
 	if( match )
