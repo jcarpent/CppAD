@@ -36,8 +36,8 @@ private:
 	/// (do not abort when zero)
 	size_t abort_op_index_;
 
-	/// number of dynamic parameters
-	size_t num_dynamic_par_;
+	/// number of independent dynamic parameters
+	size_t num_ind_dynamic_par_;
 
 	/// offset for this thread in the static hash table
 	const size_t thread_offset_;
@@ -68,7 +68,7 @@ public:
 	/// Default constructor
 	recorder(void) :
 	abort_op_index_(0),
-	num_dynamic_par_(0),
+	num_ind_dynamic_par_(0),
 	thread_offset_(
 		thread_alloc::thread_num() * CPPAD_HASH_TABLE_SIZE
 	),
@@ -80,13 +80,13 @@ public:
 	void set_abort_op_index(size_t abort_op_index)
 	{	abort_op_index_ = abort_op_index; }
 
-	/// Set the size of the dynamic parameter vector
-	void set_num_dynamic_par(size_t num_dynamic_par)
-	{	num_dynamic_par_ = num_dynamic_par; }
+	/// Set the size of the independent dynamic parameter vector
+	void set_num_ind_dynamic_par(size_t num_ind_dynamic_par)
+	{	num_ind_dynamic_par_ = num_ind_dynamic_par; }
 
-	/// Get size of the dynamic parameter vector
-	size_t get_num_dynamic_par(void)
-	{	return num_dynamic_par_; }
+	/// Get size of the independent dynamic parameter vector
+	size_t get_num_ind_dynamic_par(void)
+	{	return num_ind_dynamic_par_; }
 
 	/// Destructor
 	~recorder(void)
@@ -318,8 +318,10 @@ Find or add a parameter to the current vector of parameters.
 \param par
 is the parameter to be found or placed in the vector of parameters.
 It a previous parameter is identically equal to this one, it may be used.
-Dynamic parameters are not considered identically eqaul; i.e.,
-parameters with index less than or equal num_dynamic_par_.
+
+\par is_dynamic
+We need to add an is_dynamic flag to this routine because dynamic parameters
+are never considered identically equal.
 
 \return
 is the index in the parameter vector corresponding to this parameter value.
@@ -347,8 +349,11 @@ addr_t recorder<Base>::PutPar(const Base &par)
 
 	// check i is within par_vec_ vector
 	bool match = i < par_vec_.size();
-	// Check par_vec_[i] is not phantom parameter or dynamic parameter
-	match     &= num_dynamic_par_ < i;
+	// Check par_vec_[i] is not phantom parameter or
+	// independent dynamic parameter (need to add is_dynamic so we can detect
+	// any dynamic parameter here)
+	match     &= num_ind_dynamic_par_ < i;
+
 	// Check par_vec_[i] identically equal to par
 	if( match )
 		match = IdenticalEqualPar(par_vec_[i], par);

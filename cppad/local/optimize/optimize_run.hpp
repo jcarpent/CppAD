@@ -242,10 +242,10 @@ void optimize_run(
 	// tempory used to hold a size_pair
 	struct_size_pair size_pair;
 
-	// The dynamic parameters are the same in the new and old recording
-	rec->set_num_dynamic_par( play->num_dynamic_par() );
+	// The independent dynamic parameters are the same in the new and old recording
+	rec->set_num_ind_dynamic_par( play->num_ind_dynamic_par() );
 	rec->PutPar( Base(0.0) ); // phantom parameter at beginning (not used)
-	for(size_t i = 0; i < play->num_dynamic_par(); ++i)
+	for(size_t i = 0; i < play->num_ind_dynamic_par(); ++i)
 		rec->PutPar( play->GetPar(i + 1) );
 	//
 	user_state = start_user;

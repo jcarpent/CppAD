@@ -172,10 +172,10 @@ to conserve memory.
 This type must support std::numeric_limits,
 and conversion to size_t.
 Make sure that the type chosen do its maximum value is greater than
-the size of any dynamic parameter vector.
+the size of any independent dynamic parameter vector.
 This type is later defined as dynamic_id_t in the CppAD namespace.
 */
-# define CPPAD_DYNAMIC_ID_TYPE @cppad_dynamic_id_type@
+# define CPPAD_DYNAMIC_ID_TYPE @cppad_ind_dynamic_id_type@
 
 /*!
 \def CPPAD_MAX_NUM_THREADS

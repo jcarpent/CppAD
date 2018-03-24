@@ -236,7 +236,7 @@ cmake_args="$cmake_args -D cppad_testvector=$testvector"
 cmake_args="$cmake_args -D cppad_debug_which=$debug_which"
 cmake_args="$cmake_args -D cppad_tape_id_type='int32_t'"
 cmake_args="$cmake_args -D cppad_tape_addr_type=int32_t"
-cmake_args="$cmake_args -D cppad_dynamic_id_type=int32_t"
+cmake_args="$cmake_args -D cppad_ind_dynamic_id_type=int32_t"
 cmake_args="$cmake_args -D cppad_max_num_threads=48"
 #
 echo_eval cmake $cmake_args ..

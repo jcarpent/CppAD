@@ -186,10 +186,10 @@ int main(void)
 )
 check_source_runs("${source}" cppad_has_gettimeofday)
 # -----------------------------------------------------------------------------
-# cppad_tape_addr_type, cppad_tape_id_type, cppad_dynamic_id_type
+# cppad_tape_addr_type, cppad_tape_id_type, cppad_ind_dynamic_id_type
 #
 FOREACH(cmake_var
-	cppad_tape_id_type cppad_tape_addr_type cppad_dynamic_id_type
+	cppad_tape_id_type cppad_tape_addr_type cppad_ind_dynamic_id_type
 )
 	SET(source "
 # include <limits>

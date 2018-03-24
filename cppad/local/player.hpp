@@ -34,8 +34,8 @@ private:
 	// ----------------------------------------------------------------------
 	// information that defines the recording
 
-	/// Number of dynamic parameters in the recording.
-	size_t num_dynamic_par_;
+	/// Number of independent dynamic parameters in the recording.
+	size_t num_ind_dynamic_par_;
 
 	/// Number of variables in the recording.
 	size_t num_var_rec_;
@@ -87,7 +87,7 @@ public:
 	// =================================================================
 	/// constructor
 	player(void) :
-	num_dynamic_par_(0)  ,
+	num_ind_dynamic_par_(0)  ,
 	num_var_rec_(0)      ,
 	num_load_op_rec_(0)
 	{ }
@@ -122,7 +122,7 @@ public:
 		size_t addr_t_max = size_t( std::numeric_limits<addr_t>::max() );
 # endif
 		// just set size_t values
-		num_dynamic_par_    = rec.num_dynamic_par_;
+		num_ind_dynamic_par_    = rec.num_ind_dynamic_par_;
 		num_var_rec_        = rec.num_var_rec_;
 		num_load_op_rec_    = rec.num_load_op_rec_;
 
@@ -421,7 +421,7 @@ public:
 	*/
 	void operator=(const player& play)
 	{
-		num_dynamic_par_    = play.num_dynamic_par_;
+		num_ind_dynamic_par_    = play.num_ind_dynamic_par_;
 		num_var_rec_        = play.num_var_rec_;
 		num_load_op_rec_    = play.num_load_op_rec_;
 		op_vec_             = play.op_vec_;
@@ -616,9 +616,9 @@ public:
 		return text_vec_.data() + i;
 	}
 
-	/// Fetch number of dynamic parameters in the recording
-	size_t num_dynamic_par(void) const
-	{	return num_dynamic_par_; }
+	/// Fetch number of independent dynamic parameters in the recording
+	size_t num_ind_dynamic_par(void) const
+	{	return num_ind_dynamic_par_; }
 
 	/// Fetch number of variables in the recording.
 	size_t num_var_rec(void) const

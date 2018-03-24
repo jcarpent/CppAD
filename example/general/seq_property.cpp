@@ -44,7 +44,7 @@ bool seq_property(void)
 	size_t nvar = 1;
 
 	// Use npar to track the number of parameters in the operation sequence.
-	// Start with one for the phantom dynamic parameter at address zero.
+	// Start with one for the phantom parameter at address zero.
 	size_t npar = 1;
 
 	// Start with one for operator corresponding to phantom variable

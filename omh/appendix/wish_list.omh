@@ -38,6 +38,7 @@ $spell
 	op
 	bool
 	vec
+	ind
 $$
 
 $section The CppAD Wish List$$
@@ -49,7 +50,7 @@ $cref ADFun$$ object.
 $list number$$
 Perhaps
 $codei%
-	Independent(%x%, %abort_op_index%, %dynamic_par_vec%)
+	Independent(%x%, %abort_op_index%, %ind_dynamic_par%)
 %$$
 could be used to specify the independent dynamic parameters during taping.
 Note that $icode abort_op_index$$ equal to zero does not abort on any
@@ -69,7 +70,7 @@ After creating an $cref ADFun$$ object,
 the value corresponding to the independent dynamic parameters
 could be changed using
 $codei%
-	%f%.dynamic_parameter(%dynamic_par_vec%)
+	%f%.ind_dynamic_par(%ind_dynamic_par%)
 %$$
 $lnext
 A function would be added to detect a dynamic parameter; i.e.,
@@ -83,7 +84,7 @@ $lnext
 The independent dynamic parameters could correspond to the initial parameters
 in the tape (possibly excluding the parameter with index zero).
 When the independent dynamic parameters change, a special forward pass
-on the dynamic parameter operations would set the value for all
+on the parameter operations would set the value for all
 the other dynamic parameters in the tape.
 $lnext
 The identical functions need to be changed so that dynamic

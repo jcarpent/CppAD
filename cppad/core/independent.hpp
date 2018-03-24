@@ -24,6 +24,7 @@ $spell
 	const
 	var
 	typename
+	ind
 $$
 
 $section Declare Independent Variables and Start Recording$$
@@ -33,7 +34,7 @@ $codei%Independent(%x%)
 %$$
 $codei%Independent(%x%, %abort_op_index%)
 %$$
-$codei%Independent(%x%, %abort_op_index%, %dynamic_parameter%)
+$codei%Independent(%x%, %abort_op_index%, %ind_dynamic_par%)
 %$$
 
 $head Purpose$$
@@ -94,17 +95,17 @@ If $icode abort_op_index$$ is zero,
 of if $cref/NDEBUG/Faq/Speed/NDEBUG/$$ is defined,
 this abort will not occur.
 
-$head dynamic_parameter (Under Construction)$$
+$head ind_dynamic_par (Under Construction)$$
 If this argument is present, it has prototype
 $codei%
-	const %VectorAD%& %dynamic_parameter%
+	const %VectorAD%& %ind_dynamic_par%
 %$$
 (see $icode Vector$$ below).
 It specifies the value for a vector of $cref/parameters/glossary/Parameter/$$,
 in the $cref ADFun$$ object $icode f$$ above, that can be changed after
 the recording is stopped.
-There are no dynamic parameters when
-the size of $icode dynamic_parameter$$ is zero.
+There are no independent dynamic parameters when
+the size of $icode ind_dynamic_par$$ is zero.
 
 $head VectorAD$$
 The type $icode VectorAD$$ must be a $cref SimpleVector$$ class with
@@ -161,14 +162,14 @@ Vector of the independent variablerd.
 operator index at which execution will be aborted (during  the recording
 of operations). The value zero corresponds to not aborting (will not match).
 
-\param dynamic_parameter
+\param ind_dynamic_par
 vector of parameters that can be changed after the function is recorded.
 */
 template <typename VectorAD>
 inline void Independent(
 	VectorAD&       x                 ,
 	size_t          abort_op_index    ,
-	VectorAD&       dynamic_parameter )
+	VectorAD&       ind_dynamic_par )
 {	typedef typename VectorAD::value_type ADBase;
 	typedef typename ADBase::value_type   Base;
 	CPPAD_ASSERT_KNOWN(
@@ -178,7 +179,7 @@ inline void Independent(
 		"AD<Base>::abort_recording() would abort this previous recording."
 	);
 	local::ADTape<Base>* tape = ADBase::tape_manage(tape_manage_new);
-	tape->Independent(x, abort_op_index, dynamic_parameter);
+	tape->Independent(x, abort_op_index, ind_dynamic_par);
 }
 /*!
 Declaration of independent variables with just x
@@ -194,8 +195,8 @@ inline void Independent(VectorAD &x)
 {	// value is zero
 	size_t abort_op_index = 0;
 	// size is zero
-	VectorAD dynamic_parameter(0);
-	Independent(x, abort_op_index, dynamic_parameter);
+	VectorAD ind_dynamic_par(0);
+	Independent(x, abort_op_index, ind_dynamic_par);
 }
 
 /*!
@@ -214,8 +215,8 @@ of operations). The value zero corresponds to not aborting (will not match).
 template <typename VectorAD>
 inline void Independent(VectorAD &x, size_t abort_op_index)
 {	// size is zero
-	VectorAD dynamic_parameter(0);
-	Independent(x, abort_op_index, dynamic_parameter);
+	VectorAD ind_dynamic_par(0);
+	Independent(x, abort_op_index, ind_dynamic_par);
 }
 
 } // END_CPPAD_NAMESPACE

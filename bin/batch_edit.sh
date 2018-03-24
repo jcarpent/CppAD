@@ -31,10 +31,12 @@ move_list='
 move_sed='s|reverse_subgraph|subgraph_reverse|'
 #
 cat << EOF > junk.sed
-s|n_dynamic_parameter|num_dynamic_par|g
-s|dynamic_parameter_size|num_dynamic_par|g
-s|size_dynamic_parameter|num_dynamic_par|g
-s|dynamic_paramerer_size|num_dynamic_par|g
+s|num_dynamic_par|num_ind_dynamic_par|g
+s|cppad_dynamic_id|cppad_ind_dynamic_id|g
+s|dynamic parameter|independent dynamic parameter|g
+s|dynamic_parameter|ind_dynamic_par|g
+s|dynamic_parameter|ind_dynamic_par|g
+s|dynamic_par_vec|ind_dynamic_par|g
 EOF
 # -----------------------------------------------------------------------------
 if [ $0 != "bin/batch_edit.sh" ]

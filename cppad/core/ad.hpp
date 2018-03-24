@@ -40,10 +40,10 @@ private :
 	// Tape identifier corresponding to taddr
 	tape_id_t tape_id_;
 
-	// taddr_ in tape for this variable
+	// taddr_ in tape for this variable (if non-zero and proper tape).
 	addr_t taddr_;
 
-	// dynamic parameter index plus, if this is a parameter
+	// dynamic parameter index (if non-zero and proper tape)
 	dynamic_id_t dynamic_id_;
 	// -----------------------------------------------------------------------
 
@@ -56,7 +56,7 @@ private :
 	friend void Independent(
 		VectorAD&       x                 ,
 		size_t          abort_op_index    ,
-		VectorAD&       dynamic_parameter
+		VectorAD&       ind_dynamic_par
 	);
 
 	// one argument functions
