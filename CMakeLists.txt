@@ -181,11 +181,6 @@ command_line_arg(cppad_tape_addr_type "unsigned int" STRING
 "type used to identify variables on one tape, size must be <= sizeof(size_t)"
 )
 #
-# cppad_ind_dynamic_id_type
-command_line_arg(cppad_ind_dynamic_id_type "unsigned short" STRING
-"type used to for independent dynamic parameter indices, max value must be >= ind_dynamic_par.size()"
-)
-#
 # cppad_debug_which
 command_line_arg(cppad_debug_which "debug_all" STRING
 	"debug_even, debug_odd, debug_all, or debug_none"

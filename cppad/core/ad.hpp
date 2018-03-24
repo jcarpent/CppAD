@@ -44,7 +44,7 @@ private :
 	addr_t taddr_;
 
 	// dynamic parameter index (if non-zero and proper tape)
-	dynamic_id_t dynamic_id_;
+	addr_t dynamic_id_;
 	// -----------------------------------------------------------------------
 
 	// enable use of AD<Base> in parallel mode

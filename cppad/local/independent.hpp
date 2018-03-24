@@ -52,7 +52,8 @@ void ADTape<Base>::Independent(
 	CPPAD_ASSERT_UNKNOWN( Rec_.num_var_rec() == 0 );
 	CPPAD_ASSERT_UNKNOWN( Rec_.num_par_rec() == 0 );
 
-	// first set the abort index and size of independent dynamic parameter vector
+	// first set the abort index
+	// and size of independent dynamic parameter vector
 	Rec_.set_abort_op_index(abort_op_index);
 	size_t num_ind_dynamic_par = size_t( ind_dynamic_par.size() );
 	Rec_.set_num_ind_dynamic_par( num_ind_dynamic_par );
@@ -63,7 +64,8 @@ void ADTape<Base>::Independent(
 	Rec_.PutOp(BeginOp);
 	Rec_.PutArg(0);
 
-	// skip the first Parameter index, and follow it by the independent dynamic parameters
+	// skip the first Parameter index,
+	// and follow it by the independent dynamic parameters
 	Rec_.PutPar( Base(0) );
 	for(size_t i = 0; i < num_ind_dynamic_par; ++i)
 	{	ind_dynamic_par[i].dynamic_id_ = Rec_.PutPar(
