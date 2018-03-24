@@ -95,17 +95,18 @@ If $icode abort_op_index$$ is zero,
 of if $cref/NDEBUG/Faq/Speed/NDEBUG/$$ is defined,
 this abort will not occur.
 
-$head ind_dynamic_par (Under Construction)$$
+$head ind_dynamic_par$$
 If this argument is present, it has prototype
 $codei%
 	const %VectorAD%& %ind_dynamic_par%
 %$$
 (see $icode Vector$$ below).
-It specifies the value for a vector of $cref/parameters/glossary/Parameter/$$,
-in the $cref ADFun$$ object $icode f$$ above, that can be changed after
-the recording is stopped.
-There are no independent dynamic parameters when
-the size of $icode ind_dynamic_par$$ is zero.
+It specifies the independent dynamic
+$cref/parameters/glossary/Parameter/$$ vector.
+The value of these parameters,
+in the $cref ADFun$$ object $icode f$$,
+that can be changed using
+$cref/f.dynamic_parameter/dynamic_parameter/$$.
 
 $head VectorAD$$
 The type $icode VectorAD$$ must be a $cref SimpleVector$$ class with

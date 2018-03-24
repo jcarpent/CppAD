@@ -2,7 +2,7 @@
 # define CPPAD_CORE_FUN_EVAL_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -15,5 +15,6 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 # include <cppad/core/forward.hpp>
 # include <cppad/core/reverse.hpp>
 # include <cppad/core/sparse.hpp>
+# include <cppad/core/dynamic.hpp>
 
 # endif

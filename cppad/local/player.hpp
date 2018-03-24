@@ -603,6 +603,17 @@ public:
 
 	/*!
 	\brief
+	Fetch entire non-const version of parameter vector from the recording.
+
+	\return
+	the entire parameter vector.
+
+	*/
+	Base* parameter(void)
+	{	return parameter.data(); }
+
+	/*!
+	\brief
 	Fetch a '\\0' terminated string from the recording.
 
 	\return

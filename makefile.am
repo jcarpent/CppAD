@@ -136,6 +136,7 @@ nobase_myinclude_HEADERS =  \
 	cppad/core/div_eq.hpp \
 	cppad/core/div.hpp \
 	cppad/core/drivers.hpp \
+	cppad/core/dynamic.hpp \
 	cppad/core/epsilon.hpp \
 	cppad/core/equal_op_seq.hpp \
 	cppad/core/erf.hpp \

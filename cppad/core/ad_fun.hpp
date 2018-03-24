@@ -2,7 +2,7 @@
 # define CPPAD_CORE_AD_FUN_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -311,6 +311,10 @@ public:
 	/// assign a new operation sequence
 	template <typename ADvector>
 	void Dependent(const ADvector &x, const ADvector &y);
+
+	/// change dynamic parameters
+	template <typename VectorBase>
+	void dynamic_parameter(const VectorBase& ind_dynamic_par);
 
 	/// forward mode user API, one order multiple directions.
 	template <typename VectorBase>
