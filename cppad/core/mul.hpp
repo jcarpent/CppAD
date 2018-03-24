@@ -1,9 +1,8 @@
-// $Id$
 # ifndef CPPAD_CORE_MUL_HPP
 # define CPPAD_CORE_MUL_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-16 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -61,7 +60,9 @@ AD<Base> operator * (const AD<Base> &left , const AD<Base> &right)
 			CPPAD_ASSERT_UNKNOWN( local::NumArg(local::MulpvOp) == 2 );
 
 			// put operand addresses in tape
-			addr_t p = tape->Rec_.PutPar(right.value_);
+			addr_t p = right.dynamic_id_;
+			if( p == 0 )
+				p = tape->Rec_.PutPar(right.value_);
 			tape->Rec_.PutArg(p, left.taddr_);
 			// put operator in the tape
 			result.taddr_ = tape->Rec_.PutOp(local::MulpvOp);
@@ -83,7 +84,9 @@ AD<Base> operator * (const AD<Base> &left , const AD<Base> &right)
 			CPPAD_ASSERT_UNKNOWN( local::NumArg(local::MulpvOp) == 2 );
 
 			// put operand addresses in tape
-			addr_t p = tape->Rec_.PutPar(left.value_);
+			addr_t p = left.dynamic_id_;
+			if( p == 0 )
+				p = tape->Rec_.PutPar(left.value_);
 			tape->Rec_.PutArg(p, right.taddr_);
 			// put operator in the tape
 			result.taddr_ = tape->Rec_.PutOp(local::MulpvOp);

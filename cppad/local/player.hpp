@@ -610,7 +610,7 @@ public:
 
 	*/
 	Base* parameter(void)
-	{	return parameter.data(); }
+	{	return par_vec_.data(); }
 
 	/*!
 	\brief

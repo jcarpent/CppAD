@@ -78,6 +78,7 @@ extern bool Cosh(void);
 extern bool Cos(void);
 extern bool DivEq(void);
 extern bool Div(void);
+extern bool dynamic_parameter(void);
 extern bool eigen_array(void);
 extern bool eigen_det(void);
 extern bool EqualOpSeq(void);
@@ -192,6 +193,7 @@ int main(void)
 	Run( Cosh,              "Cosh"             );
 	Run( Div,               "Div"              );
 	Run( DivEq,             "DivEq"            );
+	Run( dynamic_parameter, "dynamic_parameter");
 	Run( EqualOpSeq,        "EqualOpSeq"       );
 	Run( Erf,               "Erf"              );
 	Run( exp,               "exp"              );

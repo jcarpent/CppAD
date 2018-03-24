@@ -68,6 +68,14 @@ The type $icode VectorBase$$ must be a $cref SimpleVector$$ class with
 $cref/elements of type/SimpleVector/Elements of Specified Type/$$
 $icode Base$$.
 
+$children%
+	example/general/dynamic_parameter.cpp
+%$$
+$head Example$$
+The file $cref dynamic_parameter.cpp$$
+contains an example and test of this operation.
+It returns true if it succeeds and false otherwise.
+
 $end
 */
 
