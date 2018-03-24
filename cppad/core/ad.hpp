@@ -267,8 +267,7 @@ public:
 
 private:
 	//
-	// Make this variable a parameter
-	//
+	// Make this a parameter (not dynamic)
 	void make_parameter(void)
 	{	CPPAD_ASSERT_UNKNOWN( Variable(*this) );  // currently a var
 		tape_id_     = 0;
@@ -283,6 +282,16 @@ private:
 		taddr_       = taddr;
 		tape_id_     = id;
 		dynamic_id_  = 0;
+	}
+	//
+	// Make this parameter a dynamic parameter
+	void make_dynamic(tape_id_t id,  addr_t dynamic_id)
+	{	CPPAD_ASSERT_UNKNOWN( Parameter(*this) ); // currently a par
+		CPPAD_ASSERT_UNKNOWN( dynamic_id > 0 );   // sure valid dynamic_id
+
+		taddr_       = 0;
+		tape_id_     = id;
+		dynamic_id_  = dynamic_id;
 	}
 	// ---------------------------------------------------------------
 	// tape linking functions

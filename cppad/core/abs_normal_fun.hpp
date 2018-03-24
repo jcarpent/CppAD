@@ -355,14 +355,14 @@ void ADFun<Base>::abs_normal_fun(ADFun<Base>& g, ADFun<Base>& a) const
 	// Parameters in recording of f
 	const Base* f_parameter = play_.GetPar();
 	//
-	// phantom parameter at beginning of parameter vector
+	// zero parameter at beginning of parameter vector
 	rec.PutPar( Base(0) );
 	//
 	// independent dynamic parameters
 	size_t num_ind_dynamic_par = play_.num_ind_dynamic_par();
 	rec.set_num_ind_dynamic_par( num_ind_dynamic_par );
 	for(size_t i = 0; i < play_.num_ind_dynamic_par(); ++i)
-		rec.PutPar(f_parameter[i + 1] );
+		rec.put_dynamic(f_parameter[i + 1] );
 	//
 	// record the independent variables in f
 	i_op = 0;

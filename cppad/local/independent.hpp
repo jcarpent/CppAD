@@ -68,7 +68,7 @@ void ADTape<Base>::Independent(
 	// and follow it by the independent dynamic parameters
 	Rec_.PutPar( Base(0) );
 	for(size_t i = 0; i < num_ind_dynamic_par; ++i)
-	{	ind_dynamic_par[i].dynamic_id_ = Rec_.PutPar(
+	{	ind_dynamic_par[i].dynamic_id_ = Rec_.put_dynamic(
 			ind_dynamic_par[i].value_
 		);
 		// i-th independent dynamic parameter must have index i + 1

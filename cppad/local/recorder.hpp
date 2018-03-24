@@ -58,8 +58,11 @@ private:
 	pod_vector<addr_t> arg_vec_;
 
 	/// The parameters in the recording.
-	/// Note that Base may not be plain old data.
+	/// (it is possible that Base is not plain old data).
 	pod_vector<Base> par_vec_;
+
+	/// which parameters are dynamic
+	pod_vector<bool> is_dynamic_vec_;
 
 	/// Character strings ('\\0' terminated) in the recording.
 	pod_vector<char> text_vec_;
@@ -107,6 +110,7 @@ public:
 		vecad_ind_vec_.clear();
 		arg_vec_.clear();
 		par_vec_.clear();
+		is_dynamic_vec_.clear();
 		text_vec_.clear();
 	}
 	/// Put next operator in the operation sequence.
@@ -115,8 +119,10 @@ public:
 	inline addr_t PutLoadOp(OpCode op);
 	/// Add a value to the end of the current vector of VecAD indices.
 	inline addr_t PutVecInd(size_t vec_ind);
-	/// Find or add a parameter to the current vector of parameters.
+	/// Find or add a non-dynamic parameter to the current vector of parameters.
 	inline addr_t PutPar(const Base &par);
+	/// Add a dynamic parameter to the current vector of parameters.
+	inline addr_t put_dynamic(const Base &par);
 	/// Put one operation argument index in the recording
 	inline void PutArg(addr_t arg0);
 	/// Put two operation argument index in the recording
@@ -155,15 +161,18 @@ public:
 
 	/// number of parameters (counting dynamic parametrers)
 	size_t num_par_rec(void) const
-	{	return par_vec_.size(); }
+	{	CPPAD_ASSERT_UNKNOWN( is_dynamic_vec_.size() == par_vec_.size() );
+		return par_vec_.size();
+	}
 
 	/// Approximate amount of memory used by the recording
 	size_t Memory(void) const
-	{	return op_vec_.capacity()        * sizeof(OpCode)
-		     + vecad_ind_vec_.capacity() * sizeof(size_t)
-		     + arg_vec_.capacity()       * sizeof(addr_t)
-		     + par_vec_.capacity()       * sizeof(Base)
-		     + text_vec_.capacity()      * sizeof(char);
+	{	return op_vec_.capacity()         * sizeof(OpCode)
+		     + vecad_ind_vec_.capacity()  * sizeof(size_t)
+		     + arg_vec_.capacity()        * sizeof(addr_t)
+		     + par_vec_.capacity()        * sizeof(Base)
+		     + is_dynamic_vec_.capacity() * sizeof(bool)
+		     + text_vec_.capacity()       * sizeof(char);
 	}
 };
 
@@ -313,15 +322,11 @@ inline addr_t recorder<Base>::PutVecInd(size_t vec_ind)
 }
 
 /*!
-Find or add a parameter to the current vector of parameters.
+Find or add a (no-dynamic) parameter to the current vector of parameters.
 
 \param par
 is the parameter to be found or placed in the vector of parameters.
 It a previous parameter is identically equal to this one, it may be used.
-
-\par is_dynamic
-We need to add an is_dynamic flag to this routine because dynamic parameters
-are never considered identically equal.
 
 \return
 is the index in the parameter vector corresponding to this parameter value.
@@ -333,26 +338,25 @@ addr_t recorder<Base>::PutPar(const Base &par)
 {	static size_t   hash_table[CPPAD_HASH_TABLE_SIZE * CPPAD_MAX_NUM_THREADS];
 	size_t          i;
 	size_t          code;
-
+	//
 	CPPAD_ASSERT_UNKNOWN(
-		thread_offset_ / CPPAD_HASH_TABLE_SIZE
-		==
-		thread_alloc::thread_num()
+		thread_offset_ / CPPAD_HASH_TABLE_SIZE == thread_alloc::thread_num()
 	);
-
+	//
 	// get hash code for this value
 	code = static_cast<size_t>( hash_code(par) );
 	CPPAD_ASSERT_UNKNOWN( code < CPPAD_HASH_TABLE_SIZE );
-
+	//
 	// If we have a match, return the parameter index
 	i          = hash_table[code + thread_offset_];
 
 	// check i is within par_vec_ vector
 	bool match = i < par_vec_.size();
-	// Check par_vec_[i] is not phantom parameter or
-	// independent dynamic parameter (need to add is_dynamic so we can detect
-	// any dynamic parameter here)
-	match     &= num_ind_dynamic_par_ < i;
+	//
+	// Check par_vec_[i] is not a dynamic parameter
+	// (because hash_table does not get cleared between recordings).
+	if( match)
+		match = ! is_dynamic_vec_[i];
 
 	// Check par_vec_[i] identically equal to par
 	if( match )
@@ -366,12 +370,42 @@ addr_t recorder<Base>::PutPar(const Base &par)
 	}
 
 	// place a new value in the table
-	i           = par_vec_.extend(1);
-	par_vec_[i] = par;
+	i                  = par_vec_.extend(1);
+	par_vec_[i]        = par;
+	is_dynamic_vec_.push_back( false );
 	CPPAD_ASSERT_UNKNOWN( par_vec_.size() == i + 1 );
+	CPPAD_ASSERT_UNKNOWN( is_dynamic_vec_[i] == false );
 
 	// make the hash code point to this new value
 	hash_table[code + thread_offset_] = i;
+
+	// return the parameter index
+	CPPAD_ASSERT_KNOWN(
+		static_cast<size_t>( std::numeric_limits<addr_t>::max() ) >= i,
+		"cppad_tape_addr_type maximum value has been exceeded"
+	)
+	return static_cast<addr_t>( i );
+}
+/*!
+Add a dynamic parameter to the current vector of parameters.
+
+\param par
+is the parameter to be found or placed in the vector of parameters.
+It a previous parameter is identically equal to this one, it may be used.
+
+\return
+is the index in the parameter vector corresponding to this parameter value.
+This value is at the end of the vector.
+*/
+template <class Base>
+addr_t recorder<Base>::put_dynamic(const Base &par)
+{
+	// place a new value in the table
+	size_t i           = par_vec_.extend(1);
+	par_vec_[i]        = par;
+	is_dynamic_vec_.push_back(true);
+	CPPAD_ASSERT_UNKNOWN( par_vec_.size() == i + 1 );
+	CPPAD_ASSERT_UNKNOWN( is_dynamic_vec_[i] == true );
 
 	// return the parameter index
 	CPPAD_ASSERT_KNOWN(

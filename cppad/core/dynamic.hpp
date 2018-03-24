@@ -100,7 +100,9 @@ void ADFun<Base>::dynamic_parameter(const VectorBase& ind_dynamic_par)
 	// get pointer to parameter vector in play_
 	Base* parameter = play_.parameter();
 
-	// set the independent dynamic parameters (skip phantom parameter)
+	// set the independent dynamic parameters
+	// (skip zero parameter at beginning)
+	CPPAD_ASSERT_UNKNOWN( parameter[0] == Base(0) );
 	for(size_t i = 0; i < num_ind_dynamic_par; ++i)
 		parameter[1 + i] = ind_dynamic_par[i];
 

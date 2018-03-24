@@ -44,7 +44,7 @@ bool seq_property(void)
 	size_t nvar = 1;
 
 	// Use npar to track the number of parameters in the operation sequence.
-	// Start with one for the phantom parameter at address zero.
+	// The parameter zero is always placed at beginging of parameter vector.
 	size_t npar = 1;
 
 	// Start with one for operator corresponding to phantom variable
@@ -81,7 +81,8 @@ bool seq_property(void)
 	AD<double> I = 0;
 	v[I]         = x[0];
 	nvecad      +=   3;  // one for vector, two for its elements
-	npar        +=   2;  // need parameters 0 and 1 for initial v
+	npar        +=   1;  // need parameters 0 and 1 for initial v
+	                     // but zero is alreay accounted for
 	nop         +=   1;  // operator for storing in a VecAD object
 	narg        +=   3;  // the three arguments are v, I, and x[0]
 
