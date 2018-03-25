@@ -1,7 +1,7 @@
 # ifndef CPPAD_LOCAL_FOR_JAC_SWEEP_HPP
 # define CPPAD_LOCAL_FOR_JAC_SWEEP_HPP
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -718,6 +718,11 @@ void for_jac_sweep(
 			forward_sparse_jacobian_binary_op(
 				i_var, arg, var_sparsity
 			);
+			break;
+			// -------------------------------------------------
+
+			// dynamic parameter operations
+			case MulppOp:
 			break;
 			// -------------------------------------------------
 

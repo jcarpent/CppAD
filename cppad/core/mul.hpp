@@ -31,8 +31,8 @@ AD<Base> operator * (const AD<Base> &left , const AD<Base> &right)
 
 	// tape_id cannot match the default value for tape_id_; i.e., 0
 	CPPAD_ASSERT_UNKNOWN( tape_id > 0 );
-	bool var_left  = left.tape_id_  == tape_id;
-	bool var_right = right.tape_id_ == tape_id;
+	bool var_left  = (left.tape_id_  == tape_id) & (left.taddr_  != 0);
+	bool var_right = (right.tape_id_ == tape_id) & (right.taddr_ != 0);
 
 	if( var_left )
 	{	if( var_right )
@@ -64,9 +64,9 @@ AD<Base> operator * (const AD<Base> &left , const AD<Base> &right)
 			if( p == 0 )
 				p = tape->Rec_.PutPar(right.value_);
 			tape->Rec_.PutArg(p, left.taddr_);
-			// put operator in the tape
-			result.taddr_ = tape->Rec_.PutOp(local::MulpvOp);
-			// make result a variable
+
+			// put operator in the tape and make result a variable
+			result.taddr_   = tape->Rec_.PutOp(local::MulpvOp);
 			result.tape_id_ = tape_id;
 		}
 	}
@@ -88,10 +88,42 @@ AD<Base> operator * (const AD<Base> &left , const AD<Base> &right)
 			if( p == 0 )
 				p = tape->Rec_.PutPar(left.value_);
 			tape->Rec_.PutArg(p, right.taddr_);
-			// put operator in the tape
-			result.taddr_ = tape->Rec_.PutOp(local::MulpvOp);
-			// make result a variable
+
+			// put operator in the tape and make result a variable
+			result.taddr_   = tape->Rec_.PutOp(local::MulpvOp);
 			result.tape_id_ = tape_id;
+		}
+	}
+	else
+	{	bool dyn_left  = (left.tape_id_  == tape_id) & (left.dynamic_id_ != 0);
+		bool dyn_right = (right.tape_id_ == tape_id) & (right.dynamic_id_ != 0);
+		if( dyn_left | dyn_right )
+		{	// dynamic parameter = parameter * parameter
+			CPPAD_ASSERT_NARG_NRES(local::MulppOp, 3, 0);
+			//
+			// left parameter
+			addr_t p = left.dynamic_id_;
+			if( p == 0 )
+				p = tape->Rec_.PutPar(left.value_);
+			tape->Rec_.PutArg(p);
+			//
+			// right parameter
+			p = right.dynamic_id_;
+			if( p == 0 )
+				p = tape->Rec_.PutPar(right.value_);
+			tape->Rec_.PutArg(p);
+			//
+			// result parameter
+			p = tape->Rec_.put_dynamic(result.value_);
+			CPPAD_ASSERT_UNKNOWN( p != 0 );
+			tape->Rec_.PutArg(p);
+			//
+			// put operator in the tape
+			tape->Rec_.PutOp(local::MulppOp);
+			//
+			// make the result a dynamic parmaeter
+			result.dynamic_id_ = p;
+			result.tape_id_    = tape_id;
 		}
 	}
 	return result;

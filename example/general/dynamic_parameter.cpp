@@ -50,11 +50,14 @@ bool dynamic_parameter(void)
 	// declare independent variables and starting recording
 	CppAD::Independent(ax, abort_op_index, ap);
 
+	// dependent dynamic paramter
+	AD<double> ap2 = ap[0] * ap[1];
+
 	// range space vector
 	size_t ny = 2;
 	CPPAD_TESTVECTOR(AD<double>) ay(ny);
 	ay[0] = ax[0] * ap[0];
-	ay[1] = ax[1] * ap[1];
+	ay[1] = ax[1] * ap2;
 
 	// create f: x -> y and stop tape recording
 	CppAD::ADFun<double> f(ax, ay);
@@ -65,7 +68,7 @@ bool dynamic_parameter(void)
 	x0[1] = 4.;
 	y0    = f.Forward(0, x0);
 	ok  &= NearEqual(y0[0] , x0[0] * Value(ap[0]), eps10, eps10);
-	ok  &= NearEqual(y0[1] , x0[1] * Value(ap[1]), eps10, eps10);
+	ok  &= NearEqual(y0[1] , x0[1] * Value(ap[0] * ap[1]), eps10, eps10);
 
 	// change value of dynamic parameters and re-run zero order forward
 	CPPAD_TESTVECTOR(double) p(np);
@@ -74,7 +77,7 @@ bool dynamic_parameter(void)
 	f.dynamic_parameter(p);
 	y0    = f.Forward(0, x0);
 	ok  &= NearEqual(y0[0] , x0[0] * p[0], eps10, eps10);
-	ok  &= NearEqual(y0[1] , x0[1] * p[1], eps10, eps10);
+	ok  &= NearEqual(y0[1] , x0[1] * p[0] * p[1], eps10, eps10);
 
 	return ok;
 }

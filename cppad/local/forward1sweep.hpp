@@ -2,7 +2,7 @@
 # define CPPAD_LOCAL_FORWARD1SWEEP_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -977,6 +977,11 @@ void forward1sweep(
 
 			case ZmulvvOp:
 			forward_zmulvv_op(p, q, i_var, arg, parameter, J, taylor);
+			break;
+			// -------------------------------------------------
+
+			// dynamic parameter operations
+			case MulppOp:
 			break;
 			// -------------------------------------------------
 

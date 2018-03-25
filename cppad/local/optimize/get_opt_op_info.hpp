@@ -2,7 +2,7 @@
 # define CPPAD_LOCAL_OPTIMIZE_GET_OPT_OP_INFO_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -888,10 +888,16 @@ void get_opt_op_info(
 		if( opt_op_info[i_op].usage == yes_usage )
 		switch( play->GetOp(i_op) )
 		{
+			// dynamic parameter operators not yet being optimized
+			case MulppOp:
+			break;
+
+			// NumberOp should not occur
 			case NumberOp:
 			CPPAD_ASSERT_UNKNOWN(false);
 			break;
 
+			// these operators never match pevious operators
 			case BeginOp:
 			case CExpOp:
 			case CSkipOp:
@@ -911,7 +917,6 @@ void get_opt_op_info(
 			case UsravOp:
 			case UsrrpOp:
 			case UsrrvOp:
-			// these operators never match pevious operators
 			break;
 
 			case AbsOp:

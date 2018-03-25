@@ -2,7 +2,7 @@
 # define CPPAD_LOCAL_REVERSE_SWEEP_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -801,6 +801,11 @@ void reverse_sweep(
 			);
 			break;
 			// --------------------------------------------------
+
+			// dynamic parameter operations
+			case MulppOp:
+			break;
+			// -------------------------------------------------
 
 			default:
 			CPPAD_ASSERT_UNKNOWN(false);

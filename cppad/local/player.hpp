@@ -273,6 +273,7 @@ public:
 				case EndOp:
 				case InvOp:
 				case LdpOp:
+				case MulppOp:
 				case ParOp:
 				case UserOp:
 				case UsrapOp:

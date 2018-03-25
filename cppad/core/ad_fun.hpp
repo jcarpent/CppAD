@@ -732,6 +732,7 @@ public:
 } // END_CPPAD_NAMESPACE
 
 // non-user interfaces
+# include <cppad/local/dynamic_sweep.hpp>
 # include <cppad/local/forward0sweep.hpp>
 # include <cppad/local/forward1sweep.hpp>
 # include <cppad/local/forward2sweep.hpp>

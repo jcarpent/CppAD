@@ -2,7 +2,7 @@
 # define CPPAD_LOCAL_FOR_HES_SWEEP_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -451,6 +451,11 @@ void for_hes_sweep(
 			);
 			break;
 
+			// -------------------------------------------------
+
+			// dynamic parameter operations
+			case MulppOp:
+			break;
 			// -------------------------------------------------
 
 			default:

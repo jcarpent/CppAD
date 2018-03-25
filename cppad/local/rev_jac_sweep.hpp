@@ -2,7 +2,7 @@
 # define CPPAD_LOCAL_REV_JAC_SWEEP_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -711,6 +711,11 @@ void rev_jac_sweep(
 			reverse_sparse_jacobian_binary_op(
 				i_var, arg, var_sparsity
 			);
+			break;
+			// -------------------------------------------------
+
+			// dynamic parameter operations
+			case MulppOp:
 			break;
 			// -------------------------------------------------
 

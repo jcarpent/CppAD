@@ -68,10 +68,13 @@ void ADTape<Base>::Independent(
 	// and follow it by the independent dynamic parameters
 	Rec_.PutPar( Base(0) );
 	for(size_t i = 0; i < num_ind_dynamic_par; ++i)
-	{	ind_dynamic_par[i].dynamic_id_ = Rec_.put_dynamic(
+	{	// tape_id
+		ind_dynamic_par[i].tape_id_ = id_;
+		// dynamic_id
+		ind_dynamic_par[i].dynamic_id_ = Rec_.put_dynamic(
 			ind_dynamic_par[i].value_
 		);
-		// i-th independent dynamic parameter must have index i + 1
+		// i-th independent dynamic parameter has parameter index i + 1
 		CPPAD_ASSERT_UNKNOWN(
 			size_t( ind_dynamic_par[i].dynamic_id_ ) == i + 1
 		);
@@ -87,9 +90,6 @@ void ADTape<Base>::Independent(
 		CPPAD_ASSERT_UNKNOWN( Variable(x[j] ) );
 	}
 
-	// place independent dynamic parameters in the tape
-	for(size_t i = 0; i < num_ind_dynamic_par; i++)
-		Rec_.PutPar( Value( ind_dynamic_par[i] ) );
 
 	// done specifying all of the independent variables
 	size_independent_ = n;

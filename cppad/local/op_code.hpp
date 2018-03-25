@@ -108,6 +108,10 @@ enum OpCode {
 	LtpvOp,   // parameter < variable
 	LtvpOp,   // variable  < parameter
 	LtvvOp,   // variable  < variable
+	MulppOp,  // dynamic_parameter = parameter  * parameter
+	// arg[0] = index of left in parameter vector
+	// arg[1] = index of right in parameter vector
+	// arg[2] = index of result in parameter vector
 	MulpvOp,  // parameter  * variable
 	MulvvOp,  // variable   * variable
 	NepvOp,   // parameter  != variable
@@ -213,6 +217,7 @@ inline size_t NumArg( OpCode op)
 		2, // LtpvOp
 		2, // LtvpOp
 		2, // LtvvOp
+		3, // MulppOp
 		2, // MulpvOp
 		2, // MulvvOp
 		2, // NepvOp
@@ -319,6 +324,7 @@ inline size_t NumRes(OpCode op)
 		0, // LtpvOp
 		0, // LtvpOp
 		0, // LtvvOp
+		0, // MulppOp
 		1, // MulpvOp
 		1, // MulvvOp
 		0, // NepvOp
@@ -410,6 +416,7 @@ inline const char* OpName(OpCode op)
 		"Ltpv"  ,
 		"Ltvp"  ,
 		"Ltvv"  ,
+		"Mulpp" ,
 		"Mulpv" ,
 		"Mulvv" ,
 		"Nepv"  ,
@@ -673,6 +680,14 @@ void printOp(
 		printOpField(os, " vr=", ind[2], ncol);
 		break;
 
+		case MulppOp:
+		CPPAD_ASSERT_UNKNOWN( NumArg(op) == 3 );
+		printOpField(os, " pl=", play->GetPar(ind[0]), ncol);
+		printOpField(os, " pr=", play->GetPar(ind[1]), ncol);
+		printOpField(os, " pd=", play->GetPar(ind[2]), ncol);
+		break;
+
+
 		case AddvvOp:
 		case DivvvOp:
 		case EqvvOp:
@@ -923,6 +938,7 @@ inline size_t arg_is_variable(
 
 		case EndOp:
 		case InvOp:
+		case MulppOp:
 		case UsrrvOp:
 		CPPAD_ASSERT_UNKNOWN( NumArg(op) == 0 );
 		break;

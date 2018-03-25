@@ -114,6 +114,9 @@ void ADFun<Base>::dynamic_parameter(const VectorBase& ind_dynamic_par)
 	for(size_t i = 0; i < num_ind_dynamic_par; ++i)
 		parameter[1 + i] = ind_dynamic_par[i];
 
+	// compute the dependent dynamic parameters
+	dynamic_sweep( &play_ );
+
 	return;
 }
 
