@@ -25,31 +25,15 @@ then
 	fi
 fi
 echo_log_eval() {
-	echo $*
+	echo "$* >& check_all.tmp"
 	echo $* >> $top_srcdir/check_all.log
-	echo $* >  $top_srcdir/check_all.err
-	if ! eval $* >> $top_srcdir/check_all.log 2>> $top_srcdir/check_all.err
+	if ! eval $* >& $top_srcdir/check_all.tmp
 	then
-		cat $top_srcdir/check_all.err
-		echo 'Error: see check_all.log'
+		echo 'check_all.sh: Error: see check_all.tmp'
 		exit 1
 	fi
-	count=`wc -l $top_srcdir/check_all.err | sed -e 's|\([0-9]*\) .*|\1|'`
-	if [ "$count" != '1' ]
-	then
-		cat "$top_srcdir/check_all.err"
-		echo 'Warning: see check_all.err'
-		exit 1
-	fi
-	rm $top_srcdir/check_all.err
-}
-log_eval() {
-	echo $* >> $top_srcdir/check_all.log
-	if ! eval $* >> $top_srcdir/check_all.log
-	then
-		echo "Error: check check_all.log"
-		exit 1
-	fi
+	cat $top_srcdir/check_all.tmp >> $top_srcdir/check_all.log
+	rm  $top_srcdir/check_all.tmp
 }
 if [ -e check_all.log ]
 then
@@ -202,6 +186,7 @@ then
 	exit 1
 fi
 # ----------------------------------------------------------------------------
+grep ':[0-9][0-9]*: warning:' $top_srcdir/check_all.log | sort -u
 echo "$0: OK" >> $top_srcdir/check_all.log
-echo "$0: OK"
+echo "$0: OK: see check_all.log"
 exit 0

@@ -1,9 +1,8 @@
-// $Id$
 # ifndef CPPAD_CORE_IDENTICAL_HPP
 # define CPPAD_CORE_IDENTICAL_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -43,7 +42,17 @@ returns true iff \c x is identically a parameter.
 template <class Base>
 CPPAD_INLINE_FRIEND_TEMPLATE_FUNCTION
 bool IdenticalPar(const AD<Base> &x)
-{	return Parameter(x) && IdenticalPar(x.value_); }
+{	if( x.tape_id_ == 0 )
+		return IdenticalPar(x.value_);
+	//
+	size_t thread = size_t(x.tape_id_ % CPPAD_MAX_NUM_THREADS);
+	bool result   = x.tape_id_ != *AD<Base>::tape_id_ptr(thread);
+	result       |= (x.taddr_ == 0) & (x.dynamic_id_ == 0);
+	if( result )
+		result = IdenticalPar(x.value_);
+	//
+	return result;
+}
 // Zero ==============================================================
 /*!
 Determine if an AD<Base> is equal to zero,
@@ -59,7 +68,17 @@ returns true if and only if
 template <class Base>
 CPPAD_INLINE_FRIEND_TEMPLATE_FUNCTION
 bool IdenticalZero(const AD<Base> &x)
-{	return Parameter(x) && IdenticalZero(x.value_); }
+{	if( x.tape_id_ == 0 )
+		return IdenticalZero(x.value_);
+	//
+	size_t thread = size_t(x.tape_id_ % CPPAD_MAX_NUM_THREADS);
+	bool result   = x.tape_id_ != *AD<Base>::tape_id_ptr(thread);
+	result       |= (x.taddr_ == 0) & (x.dynamic_id_ == 0);
+	if( result )
+		result = IdenticalZero(x.value_);
+	//
+	return result;
+}
 // One ==============================================================
 /*!
 Determine if an AD<Base> is equal to one,
@@ -75,7 +94,17 @@ returns true if and only if
 template <class Base>
 CPPAD_INLINE_FRIEND_TEMPLATE_FUNCTION
 bool IdenticalOne(const AD<Base> &x)
-{	return Parameter(x) && IdenticalOne(x.value_); }
+{	if( x.tape_id_ == 0 )
+		return IdenticalOne(x.value_);
+	//
+	size_t thread = size_t(x.tape_id_ % CPPAD_MAX_NUM_THREADS);
+	bool result   = x.tape_id_ != *AD<Base>::tape_id_ptr(thread);
+	result       |= (x.taddr_ == 0) & (x.dynamic_id_ == 0);
+	if( result )
+		result = IdenticalOne(x.value_);
+	//
+	return result;
+}
 // Equal ===================================================================
 /*!
 Determine if two AD<Base> objects are equal,
@@ -95,9 +124,23 @@ template <class Base>
 CPPAD_INLINE_FRIEND_TEMPLATE_FUNCTION
 bool IdenticalEqualPar
 (const AD<Base> &x, const AD<Base> &y)
-{	bool parameter;
-	parameter = ( Parameter(x) & Parameter(y) );
-	return parameter  && IdenticalEqualPar(x.value_, y.value_);
+{	bool x_constant = x.tape_id_ == 0;
+	bool y_constant = y.tape_id_ == 0;
+	if( x_constant & y_constant )
+		return IdenticalEqualPar(x.value_, y.value_);
+	//
+	size_t x_thread = size_t(x.tape_id_ % CPPAD_MAX_NUM_THREADS);
+	x_constant      = x.tape_id_ != *AD<Base>::tape_id_ptr(x_thread);
+	x_constant     |= (x.taddr_ == 0) & (x.dynamic_id_ == 0);
+	//
+	size_t y_thread = size_t(y.tape_id_ % CPPAD_MAX_NUM_THREADS);
+	y_constant      = y.tape_id_ != *AD<Base>::tape_id_ptr(y_thread);
+	y_constant     |= (y.taddr_ == 0) & (y.dynamic_id_ == 0);
+	//
+	if( x_constant & y_constant )
+		return IdenticalEqualPar(x.value_, y.value_);
+	//
+	return false;
 }
 // ==========================================================================
 

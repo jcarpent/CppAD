@@ -72,6 +72,7 @@ SET(source_list
 	div.cpp
 	div_eq.cpp
 	div_zero_one.cpp
+	dynamic_parameter.cpp
 	erf.cpp
 	exp.cpp
 	expm1.cpp

@@ -56,6 +56,7 @@ extern bool dependency(void);
 extern bool DivEq(void);
 extern bool Div(void);
 extern bool DivZeroOne(void);
+extern bool dynamic_parameter(void);
 extern bool eigen_mat_inv(void);
 extern bool erf(void);
 extern bool expm1(void);
@@ -164,6 +165,7 @@ int main(void)
 	Run( Div,             "Div"            );
 	Run( DivEq,           "DivEq"          );
 	Run( DivZeroOne,      "DivZeroOne"     );
+	// Run( dynamic_parameter, "dynamic_parameter" );
 	Run( erf,             "erf"            );
 	Run( Exp,             "Exp"            );
 	Run( expm1,           "expm1"          );
