@@ -25,7 +25,8 @@ then
 	fi
 fi
 echo_log_eval() {
-	echo "$* >& check_all.tmp"
+	cmd=`echo "$*" | sed -e 's|^[.a-zA-Z_/]*/||'`
+	echo "$cmd >& check_all.tmp"
 	echo $* >> $top_srcdir/check_all.log
 	if ! eval $* >& $top_srcdir/check_all.tmp
 	then
@@ -74,8 +75,7 @@ do
 done
 # ---------------------------------------------------------------------------
 # Create package to run test in
-echo "bin/package.sh"
-bin/package.sh
+echo_log_eval bin/package.sh
 # -----------------------------------------------------------------------------
 # choose which tarball to use for testing
 skip=''
@@ -118,11 +118,11 @@ done
 # extra speed tests not run with option specified
 for option in onetape colpack optimize atomic memory boolsparsity
 do
-	echo_eval speed/cppad/speed_cppad correct 432 $option
+	echo_log_eval speed/cppad/speed_cppad correct 432 $option
 done
-echo_eval speed/adolc/speed_adolc correct         432 onetape
-echo_eval speed/adolc/speed_adolc sparse_jacobian 432 onetape colpack
-echo_eval speed/adolc/speed_adolc sparse_hessian  432 onetape colpack
+echo_log_eval speed/adolc/speed_adolc correct         432 onetape
+echo_log_eval speed/adolc/speed_adolc sparse_jacobian 432 onetape colpack
+echo_log_eval speed/adolc/speed_adolc sparse_hessian  432 onetape colpack
 #
 # ----------------------------------------------------------------------------
 # extra multi_thread tests
