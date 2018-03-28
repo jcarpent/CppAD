@@ -2,7 +2,7 @@
 # define CPPAD_CORE_AD_ASSIGN_HPP
 
 /* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-17 Bradley M. Bell
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-18 Bradley M. Bell
 
 CppAD is distributed under multiple licenses. This distribution is under
 the terms of the
@@ -75,9 +75,10 @@ because they may be optimized better than the code below:
 \code
 template <class Base>
 inline AD<Base>& AD<Base>::operator=(const AD<Base> &right)
-{	value_    = right.value_;
-	tape_id_  = right.tape_id_;
-	taddr_    = right.taddr_;
+{	value_         = right.value_;
+	tape_id_       = right.tape_id_;
+	taddr_         = right.taddr_;
+	dynamic_id_    = right.dynamic_id_;
 
 	return *this;
 }
@@ -97,8 +98,10 @@ so this object is initially a parameter.
 */
 template <class Base>
 inline AD<Base>& AD<Base>::operator=(const Base &b)
-{	value_   = b;
-	tape_id_ = 0;
+{	value_      = b;
+	tape_id_    = 0;
+	taddr_      = 0;
+	dynamic_id_ = 0;
 
 	// check that this is a parameter
 	CPPAD_ASSERT_UNKNOWN( Parameter(*this) );
