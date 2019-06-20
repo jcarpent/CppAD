@@ -50,7 +50,9 @@ IF( ${CMAKE_SYSTEM_NAME} STREQUAL "Windows" )
 ELSE( ${CMAKE_SYSTEM_NAME} STREQUAL "Windows" )
     MESSAGE( STATUS "Not Windows system so building shared cpapd_lib")
     ADD_LIBRARY( cppad_lib SHARED ${source_list} )
-    SET_TARGET_PROPERTIES( cppad_lib PROPERTIES SOVERSION ${soversion} )
+    IF(NOT APPLE)
+      SET_TARGET_PROPERTIES( cppad_lib PROPERTIES SOVERSION ${soversion} )
+    ENDIF(NOT APPLE)
 ENDIF( ${CMAKE_SYSTEM_NAME} STREQUAL "Windows" )
 #
 # install(TARGETS myExe mySharedLib myStaticLib
