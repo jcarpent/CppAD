@@ -29,6 +29,7 @@ echo_eval cmake \
     -D CMAKE_C_COMPILER=gcc \
     -D CMAKE_CXX_COMPILER=g++ \
     ..
+export PATH=$PATH:$PWD/cppad_lib
 echo_eval make check
 echo_eval make install
 echo_eval make uninstall
