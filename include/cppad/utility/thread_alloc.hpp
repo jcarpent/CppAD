@@ -78,7 +78,7 @@ static variable inside of the thread_alloc::capacity_info function.
 /*!
 Allocator class that works well with an multi-threading environment.
 */
-class thread_alloc{
+class CPPAD_LIB_EXPORT thread_alloc{
 // ============================================================================
 private:
 
